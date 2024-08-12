@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WiinUPro</RootNamespace>
     <AssemblyName>WiinUPro</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -320,10 +320,6 @@
       <Project>{acc86cb0-ce56-4b4e-8024-dcb49b9fc5fc}</Project>
       <Name>Nintroller</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Scp\ScpControl\ScpControl.csproj">
-      <Project>{ddecf06e-be48-4610-8bf8-4ae5140d9f0c}</Project>
-      <Name>ScpControl</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Controllers\Pro\dpadWhiteCenter.png" />
@@ -575,19 +571,22 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf">
-      <Version>1.0.8</Version>
+      <Version>1.1.0</Version>
     </PackageReference>
     <PackageReference Include="LibUsbDotNet">
-      <Version>2.2.8</Version>
+      <Version>2.2.29</Version>
+    </PackageReference>
+    <PackageReference Include="Nefarius.ViGEm.Client">
+      <Version>1.21.256</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
+      <Version>13.0.3</Version>
     </PackageReference>
     <PackageReference Include="SharpDX.DirectInput">
-      <Version>4.0.1</Version>
+      <Version>4.2.0</Version>
     </PackageReference>
     <PackageReference Include="SharpDX.RawInput">
-      <Version>4.0.1</Version>
+      <Version>4.2.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="..\Shared\Shared.projitems" Label="Shared" />
