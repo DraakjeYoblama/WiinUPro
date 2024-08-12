@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Nefarius.ViGEm.Client;
+using Nefarius.ViGEm.Client.Targets;
+using Nefarius.ViGEm.Client.Targets.Xbox360;
 using NintrollerLib;
-using ScpControl;
 
 namespace WiinUSoft.Holders
 {
@@ -500,9 +501,12 @@ namespace WiinUSoft.Holders
         }
     }
 
-    public class XBus : BusDevice
+    public class XBus
     {
         private static XBus defaultInstance;
+        private ViGEmClient viGEmClient;
+        private Dictionary<int, IXbox360Controller> targets;
+        private List<IXbox360Controller> connected;
 
         // Default Bus
         public static XBus Default
@@ -513,16 +517,29 @@ namespace WiinUSoft.Holders
                 if (defaultInstance == null)
                 {
                     defaultInstance = new XBus();
-                    defaultInstance.Open();
-                    defaultInstance.Start();
                 }
 
                 return defaultInstance;
             }
         }
 
+         public ViGEmClient Client
+        {
+            get
+            {
+                return viGEmClient;
+            }
+            private set
+            {
+                viGEmClient = value;
+            }
+        }
+
         public XBus() 
         {
+            Client = new ViGEmClient();
+            targets = new Dictionary<int, IXbox360Controller>();
+            connected = new List<IXbox360Controller>();
             App.Current.Exit += StopDevice;
         }
 
@@ -530,12 +547,53 @@ namespace WiinUSoft.Holders
         {
             if (defaultInstance != null)
             {
-                defaultInstance.Stop();
-                defaultInstance.Close();
+                 foreach (IXbox360Controller controller in targets.Values)
+                {
+                    if (connected.Contains(controller))
+                    {
+                        controller.Disconnect();
+                        connected.Remove(controller);
+                    }
+                }
+                Client.Dispose();
             }
         }
 
-        public override int Parse(byte[] Input, byte[] Output, DsModel Type = DsModel.DS3)
+         public void Plugin(int id, ushort vid = 0, ushort pid = 0)
+        {
+            id -= 1;
+            if (vid != 0 && pid != 0)
+            {
+                targets.Add(id, Client.CreateXbox360Controller(vid, pid));
+            }
+            else
+            {
+                targets.Add(id, Client.CreateXbox360Controller());
+            }
+            targets[id].AutoSubmitReport = false;
+            targets[id].Connect();
+            connected.Add(targets[id]);
+        }
+
+        public bool Unplug(int id)
+        {
+            id -= 1;
+            if (targets.Count > id && targets[id] != null)
+            {
+                if (connected.Contains(targets[id]))
+                {
+                    targets[id].Disconnect();
+                    connected.Remove(targets[id]);
+                    targets.Remove(id);
+                    return true;
+                }
+                return false;
+            }
+
+            return false;
+        }
+
+        public int Parse(byte[] Input, byte[] Output)
         {
             for (int index = 0; index < 28; index++)
             {
@@ -587,6 +645,59 @@ namespace WiinUSoft.Holders
             }
 
             return Input[0];
+        }
+
+                public virtual bool Report(byte[] input, byte[] output)
+        {
+            byte id = (byte)(input[4] - 1);
+            if (targets.Count <= id || targets[id] == null)
+            {
+                return false;
+            }
+            IXbox360Controller controller = targets[id];
+            controller.ResetReport();
+            if ((input[10] & 32) != 0)
+                controller.SetButtonState(Xbox360Button.Back, true);
+            if ((input[10] & 64) != 0)
+                controller.SetButtonState(Xbox360Button.LeftThumb, true);
+            if ((input[10] & 128) != 0)
+                controller.SetButtonState(Xbox360Button.RightThumb, true);
+            if ((input[10] & 16) != 0)
+                controller.SetButtonState(Xbox360Button.Start, true);
+            if ((input[10] & 1) != 0)
+                controller.SetButtonState(Xbox360Button.Up, true);
+            if ((input[10] & 2) != 0)
+                controller.SetButtonState(Xbox360Button.Down, true);
+            if ((input[10] & 4) != 0)
+                controller.SetButtonState(Xbox360Button.Left, true);
+            if ((input[10] & 8) != 0)
+                controller.SetButtonState(Xbox360Button.Right, true);
+
+            if ((input[11] & 1) != 0)
+                controller.SetButtonState(Xbox360Button.LeftShoulder, true);
+            if ((input[11] & 2) != 0)
+                controller.SetButtonState(Xbox360Button.RightShoulder, true);
+            if ((input[11] & 128) != 0)
+                controller.SetButtonState(Xbox360Button.Y, true);
+            if ((input[11] & 32) != 0)
+                controller.SetButtonState(Xbox360Button.B, true);
+            if ((input[11] & 16) != 0)
+                controller.SetButtonState(Xbox360Button.A, true);
+            if ((input[11] & 64) != 0)
+                controller.SetButtonState(Xbox360Button.X, true);
+            if ((input[11] & 4) != 0)
+                controller.SetButtonState(Xbox360Button.Guide, true);
+
+            controller.SetSliderValue(Xbox360Slider.LeftTrigger, input[12]);
+            controller.SetSliderValue(Xbox360Slider.RightTrigger, input[13]);
+
+            controller.SetAxisValue(Xbox360Axis.LeftThumbX, BitConverter.ToInt16(input, 14));
+            controller.SetAxisValue(Xbox360Axis.LeftThumbY, BitConverter.ToInt16(input, 16));
+            controller.SetAxisValue(Xbox360Axis.RightThumbX, BitConverter.ToInt16(input, 18));
+            controller.SetAxisValue(Xbox360Axis.RightThumbY, BitConverter.ToInt16(input, 20));
+
+            controller.SubmitReport();
+            return true;
         }
     }
 }
