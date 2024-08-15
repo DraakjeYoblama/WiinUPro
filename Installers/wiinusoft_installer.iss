@@ -63,7 +63,7 @@ Name: "custom"; Description: "Pick and Choose"; Flags: iscustom
 
 [Components]
 Name: "main"; Description: "WiinUSoft"; Types: full custom; Flags: fixed;
-Name: "scp"; Description: "Scarlet Crush Production Driver"; Types: full
+Name: "vigem"; Description: "ViGEmBus driver by Nefarius (Required)"; Types: full
 Name: "xbox"; Description: "Xbox 360 Controller Driver (Required on Windows XP, Vista, and 7)"; Types: full
 
 [Tasks]
@@ -73,10 +73,10 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 [Files]
 Source: "..\WiinUSoft\bin\Release\WiinUSoft.exe"; DestDir: "{app}"; Components: main; Flags: ignoreversion
 Source: "..\WiinUSoft\bin\Release\Nintroller.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
-Source: "..\WiinUSoft\bin\Release\ScpControl.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
-Source: "..\WiinUSoft\bin\Release\Hardcodet.Wpf.TaskbarNotification.dll"; Components: main; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\WiinUSoft\bin\Release\Nefarius.ViGEm.Client.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
+Source: "..\WiinUSoft\bin\Release\Hardcodet.NotifyIcon.Wpf.dll"; Components: main; DestDir: "{app}"; Flags: ignoreversion
 Source: "..\WiinUSoft\ReadMe.txt"; DestDir: "{app}"; Components: main; Flags: ignoreversion isreadme
-Source: "Drivers\SCP_Driver\*"; DestDir: "{app}\SCP_Driver"; Components: scp; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "Drivers\ViGEmBus_1.22.0_x64_x86_arm64.exe"; DestDir: "{app}"; Components: vigem; Flags: ignoreversion
 Source: "Drivers\Xbox360_32Eng_7.exe"; DestDir: "{app}"; DestName: "Xbox360Driver.exe"; Components: xbox; Check: IsWindows7OrAbove and not Is64BitInstallMode; Flags: ignoreversion
 Source: "Drivers\Xbox360_64Eng_7.exe"; DestDir: "{app}"; DestName: "Xbox360Driver.exe"; Components: xbox; Check: IsWindows7OrAbove and Is64BitInstallMode; Flags: ignoreversion
 Source: "Drivers\Xbox360_32Eng_Vista.exe"; DestDir: "{app}"; DestName: "Xbox360Driver.exe"; Components: xbox; Check: IsWindowsVista and not Is64BitInstallMode; Flags: ignoreversion
@@ -92,12 +92,12 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
 
 [Run]
-Filename: "{app}\SCP_Driver\ScpDriver.exe"; Components: scp
+Filename: "{app}\ViGEmBus_1.22.0_x64_x86_arm64.exe"; Components: vigem
 Filename: "{app}\Xbox360Driver.exe"; Components: xbox;
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
-Filename: "{app}\SCP_Driver\ScpDriver.exe"; Components: scp
+Filename: "{app}\ViGEmBus_1.22.0_x64_x86_arm64.exe"; Components: vigem
 
 [Code]
 /////////////////////////////////////////////////////////////////////

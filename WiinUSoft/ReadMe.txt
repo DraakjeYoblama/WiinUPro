@@ -13,11 +13,12 @@ Requirements
 ======================
 
  - The Microsoft Xbox 360 Controller Driver must be installed
-   These XInput drivers should already be packaged in with Windows 10 & Windows 8.1
+   These XInput drivers should already be packaged in with Windows 10/11 & Windows 8.1
    http://www.microsoft.com/hardware/en-us/d/xbox-360-controller-for-windows
 
- - The SCP Service Driver must be installed. Use /SCP_Driver/ScpDriver.exe to install it.
-   You only need the "Configure Service" installed, you do not need to install its Bluetooth Driver.
+ - The ViGEmBus Controller Driver must be installed. Use /ViGEmBus_1.22.0_x64_x86_arm64.exe to install it.
+   Driver created by Nefarius Software Solutions e.U.
+   https://github.com/nefarius/ViGEmBus
 
 
 ======================

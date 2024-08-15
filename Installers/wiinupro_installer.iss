@@ -79,7 +79,7 @@ Name: "custom"; Description: "{cm:InstallSome}"; Flags: iscustom
 
 [Components]
 Name: "main"; Description: "WiinUPro"; Types: full custom; Flags: fixed;
-Name: "scp"; Description: "Scarlet Crush Production Driver"; Types: full
+Name: "vigem"; Description: "ViGEmBus driver by Nefarius (Required)"; Types: full
 Name: "xbox"; Description: "{cm:ComponentXbox}"; Types: full
 Name: "gcn"; Description: "{cm:ComponentGCN}"; Types: full
 
@@ -93,19 +93,19 @@ Source: "..\WiinUPro\bin\Release\lang.json"; DestDir: "{app}"; Components: main;
 Source: "..\WiinUPro\bin\Release\Nintroller.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
 Source: "..\WiinUPro\bin\Release\Newtonsoft.Json.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
 Source: "..\WiinUPro\bin\Release\InputManager.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
-Source: "..\WiinUPro\bin\Release\ScpControl.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
+Source: "..\WiinUPro\bin\Release\Nefarius.ViGEm.Client.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
 Source: "..\WiinUPro\bin\Release\LibUsbDotNet.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
 Source: "..\WiinUPro\bin\Release\SharpDX.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
 Source: "..\WiinUPro\bin\Release\SharpDX.DirectInput.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
 Source: "..\WiinUPro\bin\Release\SharpDX.RawInput.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
-Source: "..\WiinUPro\bin\Release\Hardcodet.Wpf.TaskbarNotification.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
+Source: "..\WiinUPro\bin\Release\Hardcodet.NotifyIcon.Wpf.dll"; DestDir: "{app}"; Components: main; Flags: ignoreversion
 Source: "..\vJoy\x64\vJoyInterface.dll"; DestDir: "{app}"; Components: main; Check: Is64BitInstallMode; Flags: ignoreversion
 Source: "..\vJoy\x64\vJoyInterfaceWrap.dll"; DestDir: "{app}"; Components: main; Check: Is64BitInstallMode; Flags: ignoreversion
 Source: "..\vJoy\x86\vJoyInterface.dll"; DestDir: "{app}"; Components: main; Check: not Is64BitInstallMode; Flags: ignoreversion
 Source: "..\vJoy\x86\vJoyInterfaceWrap.dll"; DestDir: "{app}"; Components: main; Check: not Is64BitInstallMode; Flags: ignoreversion
 ;Source: "..\WiinUPro\ReadMe.txt"; DestDir: "{app}"; Components: main; Flags: ignoreversion isreadme
 Source: "wup_uninstall.ico"; DestDir: "{app}"; DestName: "uninstall.ico"; Components: main; Flags: ignoreversion
-Source: "Drivers\SCP_Driver\*"; DestDir: "{app}\SCP_Driver"; Components: scp; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "Drivers\ViGEmBus_1.22.0_x64_x86_arm64.exe"; DestDir: "{app}"; Components: vigem; Flags: ignoreversion
 Source: "Drivers\Xbox360_32Eng_7.exe"; DestDir: "{app}"; DestName: "Xbox360Driver.exe"; Components: xbox; Check: IsWindows7OrAbove and not Is64BitInstallMode; Flags: ignoreversion
 Source: "Drivers\Xbox360_64Eng_7.exe"; DestDir: "{app}"; DestName: "Xbox360Driver.exe"; Components: xbox; Check: IsWindows7OrAbove and Is64BitInstallMode; Flags: ignoreversion
 Source: "Drivers\Xbox360_32Eng_Vista.exe"; DestDir: "{app}"; DestName: "Xbox360Driver.exe"; Components: xbox; Check: IsWindowsVista and not Is64BitInstallMode; Flags: ignoreversion
@@ -124,13 +124,13 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon
 
 [Run]
-Filename: "{app}\SCP_Driver\ScpDriver.exe"; Components: scp;
+Filename: "{app}\ViGEmBus_1.22.0_x64_x86_arm64.exe"; Components: vigem
 Filename: "{app}\Xbox360Driver.exe"; Components: xbox;
 Filename: "{app}\zadig_2.1.2.gcn.exe"; Components: gcn;
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
-Filename: "{app}\SCP_Driver\ScpDriver.exe"; Components: scp
+Filename: "{app}\ViGEmBus_1.22.0_x64_x86_arm64.exe"; Components: vigem
 
 [Code]
 /////////////////////////////////////////////////////////////////////
