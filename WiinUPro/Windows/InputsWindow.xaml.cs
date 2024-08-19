@@ -6,8 +6,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using InputManager;
-using ScpControl;
+using Nefarius.ViGEm.Client;
+using Nefarius.ViGEm.Client.Targets;
+using Nefarius.ViGEm.Client.Targets.Xbox360;
 using Shared;
 
 namespace WiinUPro
@@ -31,8 +34,9 @@ namespace WiinUPro
         private List<MouseInput> _selectedMouseDirections;
         private List<InputManager.Mouse.MouseKeys> _selectedMouseButtons;
         private List<InputManager.Mouse.ScrollDirection> _selectedMouseScroll;
-        private List<X360Button> _selectedXInputButtons;
-        private List<X360Axis> _selectedXInputAxes;
+        private List<Xbox360Button> _selectedXInputButtons;
+        private List<Xbox360Axis> _selectedXInputAxes;
+        private List<Xbox360Slider> _selectedXInputSliders;
         private List<int> _selectedVJoyButtons;
         private List<VJoyDirector.AxisDirection> _selectedVJoyAxes;
         private List<VJoyDirector.POVDirection> _selectedVJoyPOVs;
@@ -60,8 +64,9 @@ namespace WiinUPro
             _selectedMouseDirections = new List<MouseInput>();
             _selectedMouseButtons = new List<InputManager.Mouse.MouseKeys>();
             _selectedMouseScroll = new List<InputManager.Mouse.ScrollDirection>();
-            _selectedXInputButtons = new List<X360Button>();
-            _selectedXInputAxes = new List<X360Axis>();
+            _selectedXInputButtons = new List<Xbox360Button>();
+            _selectedXInputAxes = new List<Xbox360Axis>();
+            _selectedXInputSliders = new List<Xbox360Slider>();
             _selectedVJoyButtons = new List<int>();
             _selectedVJoyAxes = new List<VJoyDirector.AxisDirection>();
             _selectedVJoyPOVs = new List<VJoyDirector.POVDirection>();
@@ -97,9 +102,9 @@ namespace WiinUPro
 
                 if (shifty.Toggles)
                 {
-                    checkNone.IsChecked  = shifty.ToggleStates.Contains(ShiftState.None);
-                    checkRed.IsChecked   = shifty.ToggleStates.Contains(ShiftState.Red);
-                    checkBlue.IsChecked  = shifty.ToggleStates.Contains(ShiftState.Blue);
+                    checkNone.IsChecked = shifty.ToggleStates.Contains(ShiftState.None);
+                    checkRed.IsChecked = shifty.ToggleStates.Contains(ShiftState.Red);
+                    checkBlue.IsChecked = shifty.ToggleStates.Contains(ShiftState.Blue);
                     checkGreen.IsChecked = shifty.ToggleStates.Contains(ShiftState.Green);
 
                     shiftToggleGroup.IsEnabled = true;
@@ -109,9 +114,9 @@ namespace WiinUPro
                 {
                     switch (shifty.TargetState)
                     {
-                        case ShiftState.None:  radioNone.IsChecked = true; break;
-                        case ShiftState.Red:   radioRed.IsChecked = true; break;
-                        case ShiftState.Blue:  radioBlue.IsChecked = true; break;
+                        case ShiftState.None: radioNone.IsChecked = true; break;
+                        case ShiftState.Red: radioRed.IsChecked = true; break;
+                        case ShiftState.Blue: radioBlue.IsChecked = true; break;
                         case ShiftState.Green: radioGreen.IsChecked = true; break;
                     }
                 }
@@ -139,7 +144,7 @@ namespace WiinUPro
 
                     keyTurboCheck.IsChecked = (item as KeyboardAssignment).TurboEnabled;
                     keyTurboRate.Value = (item as KeyboardAssignment).TurboRate / 50;
-                    keyInverseCheck.IsChecked = (item as KeyboardAssignment).InverseInput;                    
+                    keyInverseCheck.IsChecked = (item as KeyboardAssignment).InverseInput;
                 }
                 else if (item is MouseAssignment)
                 {
@@ -225,6 +230,20 @@ namespace WiinUPro
                     // Remove once multiple xinput devices can be selected
                     deviceSelection.SelectedIndex = (int)(item as XInputAxisAssignment).Device - 1;
                 }
+                else if (item is XInputSliderAssignment)
+                {
+                    hasX = true;
+                    var xa = (item as XInputSliderAssignment).Slider;
+                    var img = xImages.Find((i) => i.Tag.ToString() == xa.ToString());
+                    if (img != null)
+                    {
+                        img.Opacity = 100;
+                        _selectedXInputSliders.Add(xa);
+                    }
+
+                    // Remove once multiple xinput devices can be selected
+                    deviceSelection.SelectedIndex = (int)(item as XInputAxisAssignment).Device - 1;
+                }
                 else if (item is VJoyButtonAssignment)
                 {
                     hasJoy = true;
@@ -266,7 +285,7 @@ namespace WiinUPro
                                     continue;
                                 }
 
-                                    if (Enum.TryParse((stack.Children[index] as Button).Tag.ToString(), out e))
+                                if (Enum.TryParse((stack.Children[index] as Button).Tag.ToString(), out e))
                                 {
                                     (stack.Children[index] as Button).Style = keySelectedStyle;
                                     _selectedVJoyAxes.Add(e);
@@ -733,6 +752,81 @@ namespace WiinUPro
             }
         }
 
+        private void AddToListX<T>(object obj, List<T> list) where T : Xbox360Property
+        {
+            var elm = obj as FrameworkElement;
+
+            if (elm != null)
+            {
+                String inputType = elm.Tag.ToString();
+                if (inputType != null)
+                {
+                    bool selected = list.Any(i => i.Name == inputType);
+
+                    // This can be a Button or an Image or a shape
+                    var btn = obj as Button;
+                    if (btn != null)
+                    {
+                        selected &= btn.Style == keySelectedStyle;
+                    }
+
+                    var img = obj as Image;
+                    if (img != null)
+                    {
+                        selected &= img.Opacity > 0;
+                    }
+
+                    var shape = obj as Shape;
+                    if (shape != null)
+                    {
+                        selected &= shape.Opacity > 0;
+                    }
+
+                    if (selected)
+                    {
+                        // Deselect and remove from list
+                        list.RemoveAll(i => i.Name == inputType);
+
+                        if (btn != null)
+                        {
+                            btn.Style = keyStyle;
+                        }
+
+                        if (img != null)
+                        {
+                            img.Opacity = 0;
+                        }
+
+                        if (shape != null)
+                        {
+                            shape.Opacity = 0;
+                        }
+                    }
+                    else
+                    {
+                        var allProperties = Xbox360Property.GetAll<T>();
+                        list.Add(allProperties.FirstOrDefault(i => i.Name == inputType));
+                        
+
+                        if (btn != null)
+                        {
+                            btn.Style = keySelectedStyle;
+                        }
+
+                        if (img != null)
+                        {
+                            img.Opacity = 100;
+                        }
+
+                        if (shape != null)
+                        {
+                            shape.Opacity = 100;
+                        }
+                    }
+                }
+            }
+        }
+
         #region Toggle Assignment Events
 
         private void ToggleKey(object sender, RoutedEventArgs e)
@@ -782,12 +876,17 @@ namespace WiinUPro
 
         private void ToggleXInputButton(object sender, RoutedEventArgs e)
         {
-            AddToList(sender, _selectedXInputButtons);
+            AddToListX(sender, _selectedXInputButtons);
         }
 
         private void ToggleXInputAxis(object sender, RoutedEventArgs e)
         {
-            AddToList(sender, _selectedXInputAxes);
+            AddToListX(sender, _selectedXInputAxes);
+        }
+
+        private void ToggleXInputSlider(object sender, RoutedEventArgs e)
+        {
+            AddToListX(sender, _selectedXInputSliders);
         }
 
         private void ToggleVJoyButton(object sender, RoutedEventArgs e)
@@ -916,6 +1015,11 @@ namespace WiinUPro
                 foreach (var xAxis in _selectedXInputAxes)
                 {
                     Result.Add(new XInputAxisAssignment(xAxis, _selectedDevice));
+                }
+
+                foreach(var xSlider in _selectedXInputSliders)
+                {
+                    Result.Add(new XInputSliderAssignment(xSlider, _selectedDevice));
                 }
 
                 uint vDevice = 1;

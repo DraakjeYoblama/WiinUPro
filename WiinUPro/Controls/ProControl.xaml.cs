@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Shared;
 using NintrollerLib;
+using Nefarius.ViGEm.Client.Targets.Xbox360;
 
 namespace WiinUPro
 {
@@ -168,32 +169,32 @@ namespace WiinUPro
         {
             Dictionary<string, AssignmentCollection> defaults = new Dictionary<string, AssignmentCollection>();
 
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LUP, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(ScpControl.X360Axis.LY_Hi) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LDOWN, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(ScpControl.X360Axis.LY_Lo) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LRIGHT, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(ScpControl.X360Axis.LX_Hi) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LLEFT, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(ScpControl.X360Axis.LX_Lo) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RUP, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(ScpControl.X360Axis.RY_Hi) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RDOWN, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(ScpControl.X360Axis.RY_Lo) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RRIGHT, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(ScpControl.X360Axis.RX_Hi) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RLEFT, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(ScpControl.X360Axis.RX_Lo) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.ZL, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(ScpControl.X360Axis.LT) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.ZR, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(ScpControl.X360Axis.RT) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LUP, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(Xbox360Axis.LeftThumbY) }));
+            //defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LDOWN, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(Xbox360Axis.LeftThumbY) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LRIGHT, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(Xbox360Axis.LeftThumbX) }));
+            //defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LLEFT, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(Xbox360Axis.LeftThumbX) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RUP, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(Xbox360Axis.RightThumbY) }));
+            //defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RDOWN, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(Xbox360Axis.RightThumbY) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RRIGHT, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(Xbox360Axis.RightThumbX) }));
+            //defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RLEFT, new AssignmentCollection(new List<IAssignment> { new XInputAxisAssignment(Xbox360Axis.RightThumbX) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.ZL, new AssignmentCollection(new List<IAssignment> { new XInputSliderAssignment(Xbox360Slider.LeftTrigger) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.ZR, new AssignmentCollection(new List<IAssignment> { new XInputSliderAssignment(Xbox360Slider.RightTrigger) }));
 
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.UP, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.Up) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.DOWN, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.Down) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LEFT, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.Left) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RIGHT, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.Right) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.A, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.A) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.B, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.B) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.X, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.X) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.Y, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.Y) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.L, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.LB) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.R, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.RB) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LS, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.LS) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RS, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.RS) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.START, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.Start) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.SELECT, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.Back) }));
-            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.HOME, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(ScpControl.X360Button.Guide) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.UP, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.Up) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.DOWN, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.Down) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LEFT, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.Left) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RIGHT, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.Right) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.A, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.A) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.B, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.B) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.X, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.X) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.Y, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.Y) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.L, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.LeftShoulder) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.R, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.RightShoulder) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.LS, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.LeftThumb) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.RS, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.RightThumb) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.START, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.Start) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.SELECT, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.Back) }));
+            defaults.Add(INPUT_NAMES.PRO_CONTROLLER.HOME, new AssignmentCollection(new List<IAssignment> { new XInputButtonAssignment(Xbox360Button.Guide) }));
 
             CallEvent_OnQuickAssign(defaults);
         }

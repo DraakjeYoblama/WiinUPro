@@ -96,6 +96,7 @@
     <Compile Include="Assignments\VJoyAxisAssignment.cs" />
     <Compile Include="Assignments\VJoyButtonAssignment.cs" />
     <Compile Include="Assignments\VJoyPOVAssignment.cs" />
+    <Compile Include="Assignments\XInputSliderAssignment.cs" />
     <Compile Include="Controls\BaseControl.cs" />
     <Compile Include="Controls\WiiControl.xaml.cs">
       <DependentUpon>WiiControl.xaml</DependentUpon>

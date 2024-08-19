@@ -1,18 +1,22 @@
-﻿using System.Collections.Generic;
-using ScpControl;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Media.Media3D;
+using Nefarius.ViGEm.Client;
+using Nefarius.ViGEm.Client.Targets;
+using Nefarius.ViGEm.Client.Targets.Xbox360;
 
 namespace WiinUPro
 {
-    public class ScpDirector
+    public class ScpDirector //todo: change director name
     {
-        public const int MAX_XINPUT_INSTNACES = 4;
+        public const int MAX_XINPUT_INSTANCES = 4;
 
         #region Access
         public static ScpDirector Access { get; protected set; }
 
         static ScpDirector()
         {
-            // TODO Director: Initialize SCPControl
             Access = new ScpDirector();
             Access.Available = true;
         }
@@ -30,7 +34,7 @@ namespace WiinUPro
         //{
         //    get
         //    {
-        //        if (index < 0 || index >= MAX_XINPUT_INSTNACES)
+        //        if (index < 0 || index >= MAX_XINPUT_INSTANCES)
         //        {
         //            index = 0;
         //        }
@@ -43,7 +47,7 @@ namespace WiinUPro
         //        return _xInstances[index];
         //    }
         //}
-                
+
         public bool Available { get; protected set; }
         public int Instances { get { return _xInstances.Count; } }
 
@@ -62,26 +66,37 @@ namespace WiinUPro
             _deviceStatus = new bool[] { false, false, false, false };
         }
 
-        public void SetButton(X360Button button, bool pressed)
+        public void SetButton(Xbox360Button button, bool pressed)
         {
             SetButton(button, pressed, XInput_Device.Device_A);
         }
 
-        public void SetButton(X360Button button, bool pressed, XInput_Device device)
+        public void SetButton(Xbox360Button button, bool pressed, XInput_Device device)
         {
             //this[(int)device].SetInput(button, pressed);
             _xInstances[(int)device - 1].SetInput(button, pressed);
         }
 
-        public void SetAxis(X360Axis axis, float value)
+        public void SetAxis(Xbox360Axis axis, float value)
         {
             SetAxis(axis, value, XInput_Device.Device_A);
         }
 
-        public void SetAxis(X360Axis axis, float value, XInput_Device device)
+        public void SetAxis(Xbox360Axis axis, float value, XInput_Device device)
         {
             //this[(int)device].SetInput(axis, value);
             _xInstances[(int)device - 1].SetInput(axis, value);
+        }
+
+        public void SetSlider(Xbox360Slider slider, float value)
+        {
+            SetSlider(slider, value, XInput_Device.Device_A);
+        }
+
+        public void SetSlider(Xbox360Slider slider, float value, XInput_Device device)
+        {
+            //this[(int)device].SetInput(slider, value);
+            _xInstances[(int)device - 1].SetInput(slider, value);
         }
 
         /// <summary>
@@ -165,131 +180,30 @@ namespace WiinUPro
 
         public struct XInputState
         {
-            public bool A, B, X, Y;
-            public bool Up, Down, Left, Right;
-            public bool LB, RB, LS, RS;
-            public bool Start, Back, Guide;
+            public bool A { get; set; }
+            public bool B { get; set; }
+            public bool X { get; set; }
+            public bool Y { get; set; }
+            public bool Up { get; set; }
+            public bool Down { get; set; }
+            public bool Left { get; set; }
+            public bool Right { get; set; }
+            public bool LB { get; set; }
+            public bool RB { get; set; }
+            public bool LS { get; set; }
+            public bool RS { get; set; }
+            public bool Start { get; set; }
+            public bool Back { get; set; }
+            public bool Guide { get; set; }
 
-            public float LX, LY, LT;
-            public float RX, RY, RT;
+            public float LX { get; set; }
+            public float LY { get; set; }
+            public float LT { get; set; }
+            public float RX { get; set; }
+            public float RY { get; set; }
+            public float RT { get; set; }
 
-            public bool this[X360Button btn]
-            {
-                set
-                {
-                    switch (btn)
-                    {
-                        case X360Button.A: A = value; break;
-                        case X360Button.B: B = value; break;
-                        case X360Button.X: X = value; break;
-                        case X360Button.Y: Y = value; break;
-                        case X360Button.LB: LB = value; break;
-                        case X360Button.RB: RB = value; break;
-                        case X360Button.LS: LS = value; break;
-                        case X360Button.RS: RS = value; break;
-                        case X360Button.Up: Up = value; break;
-                        case X360Button.Down: Down = value; break;
-                        case X360Button.Left: Left = value; break;
-                        case X360Button.Right: Right = value; break;
-                        case X360Button.Start: Start = value; break;
-                        case X360Button.Back: Back = value; break;
-                        case X360Button.Guide: Guide = value; break;
-                        default: break;
-                    }
-                }
-
-                get
-                {
-                    switch (btn)
-                    {
-                        case X360Button.A: return A;
-                        case X360Button.B: return B;
-                        case X360Button.X: return X;
-                        case X360Button.Y: return Y;
-                        case X360Button.LB: return LB;
-                        case X360Button.RB: return RB;
-                        case X360Button.LS: return LS;
-                        case X360Button.RS: return RS;
-                        case X360Button.Up: return Up;
-                        case X360Button.Down: return Down;
-                        case X360Button.Left: return Left;
-                        case X360Button.Right: return Right;
-                        case X360Button.Start: return Start;
-                        case X360Button.Back: return Back;
-                        case X360Button.Guide: return Back;
-                        default: return false;
-                    }
-                }
-            }
-
-            public float this[X360Axis axis]
-            {
-                set
-                {
-                    switch (axis)
-                    {
-                        case X360Axis.LX_Hi:
-                            LX = value;
-                            break;
-                        case X360Axis.LX_Lo:
-                            LX = -value;
-                            break;
-                        case X360Axis.LY_Hi:
-                            LY = value;
-                            break;
-                        case X360Axis.LY_Lo:
-                            LY = -value;
-                            break;
-                        case X360Axis.LT:
-                            LT = value;
-                            break;
-                        case X360Axis.RX_Hi:
-                            RX = value;
-                            break;
-                        case X360Axis.RX_Lo:
-                            RX = -value;
-                            break;
-                        case X360Axis.RY_Hi:
-                            RY = value;
-                            break;
-                        case X360Axis.RY_Lo:
-                            RY = -value;
-                            break;
-                        case X360Axis.RT:
-                            RT = value;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-                get
-                {
-                    switch (axis)
-                    {
-                        case X360Axis.LX_Hi:
-                        case X360Axis.LX_Lo:
-                            return LX;
-                        case X360Axis.LY_Hi:
-                        case X360Axis.LY_Lo:
-                            return LY;
-                        case X360Axis.LT:
-                            return LT;
-                        case X360Axis.RX_Hi:
-                        case X360Axis.RX_Lo:
-                            return RX;
-                        case X360Axis.RY_Hi:
-                        case X360Axis.RY_Lo:
-                            return RY;
-                        case X360Axis.RT:
-                            return RT;
-                        default:
-                            return 0;
-                    }
-                }
-            }
-
-            public void Reset()
+        public void Reset()
             {
                 A = B = X = Y = false;
                 Up = Down = Left = Right = false;
@@ -300,7 +214,7 @@ namespace WiinUPro
             }
         }
 
-        protected class BusAccess : BusDevice
+        protected class BusAccess
         {
             public static BusAccess Instance
             {
@@ -309,18 +223,33 @@ namespace WiinUPro
                     if (_instance == null)
                     {
                         _instance = new BusAccess();
-                        _instance.Open();
-                        _instance.Start();
                     }
-
                     return _instance;
                 }
             }
 
             public static BusAccess _instance;
+            private ViGEmClient viGEmClient;
+            private Dictionary<int, IXbox360Controller> targets;
+            private List<IXbox360Controller> connected;
+
+            public ViGEmClient Client
+            {
+                get
+                {
+                    return viGEmClient;
+                }
+                private set
+                {
+                    viGEmClient = value;
+                }
+            }
 
             protected BusAccess()
             {
+                Client = new ViGEmClient();
+                targets = new Dictionary<int, IXbox360Controller>();
+                connected = new List<IXbox360Controller>();
                 App.Current.Exit += App_Exit;
         }
 
@@ -328,9 +257,61 @@ namespace WiinUPro
             {
                 if (_instance != null)
         {
-                    _instance.Stop();
-                    _instance.Close();
+                    foreach (IXbox360Controller controller in targets.Values)
+                    {
+                        if (connected.Contains(controller))
+                        {
+                            controller.Disconnect();
+                            connected.Remove(controller);
+                        }
+                    }
+                    Client.Dispose();
                 }
+            }
+            public bool Plugin(int id, ushort vid = 0, ushort pid = 0)
+            {
+                id -= 1;
+                if (vid != 0 && pid != 0)
+                {
+                    targets.Add(id, Client.CreateXbox360Controller(vid, pid));
+                }
+                else
+                {
+                    targets.Add(id, Client.CreateXbox360Controller());
+                }
+                targets[id].AutoSubmitReport = false;
+                targets[id].Connect();
+                connected.Add(targets[id]);
+                return true;
+            }
+            public bool Unplug(int id)
+            {
+                id -= 1;
+                if (targets.Count > id && targets[id] != null)
+                {
+                    if (connected.Contains(targets[id]))
+                    {
+                        targets[id].Disconnect();
+                        connected.Remove(targets[id]);
+                        targets.Remove(id);
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            public IXbox360Controller GetController(int id)
+            {
+                if (!targets.TryGetValue(id, out var controller))
+                {
+                    return null;
+                }
+                return controller;
+            }
+
+            internal bool Report(byte[] output, byte[] rumble)
+            {
+                throw new NotImplementedException(); //todo
             }
         }
 
@@ -385,55 +366,65 @@ namespace WiinUPro
                 return PluggedIn == false;
             }
 
-            public void SetInput(X360Button button, bool state)
+            public void SetInput(Xbox360Button button, bool state)
             {
-                inputs[button] = state;// || inputs[button];
+                if (button.Equals(Xbox360Button.A)) { inputs.A = state; }
+                else if (button.Equals(Xbox360Button.B)) { inputs.B = state; }
+                else if (button.Equals(Xbox360Button.X)) { inputs.X = state; }
+                else if (button.Equals(Xbox360Button.Y)) { inputs.Y = state; }
+                else if (button.Equals(Xbox360Button.Up)) { inputs.Up = state; }
+                else if (button.Equals(Xbox360Button.Down)) { inputs.Down = state; }
+                else if (button.Equals(Xbox360Button.Left)) { inputs.Left = state; }
+                else if (button.Equals(Xbox360Button.Right)) { inputs.Right = state; }
+                else if (button.Equals(Xbox360Button.LeftShoulder)) { inputs.LB = state; }
+                else if (button.Equals(Xbox360Button.RightShoulder)) { inputs.RB = state; }
+                else if (button.Equals(Xbox360Button.LeftThumb)) { inputs.LS = state; }
+                else if (button.Equals(Xbox360Button.RightThumb)) { inputs.RS = state; }
+                else if (button.Equals(Xbox360Button.Start)) { inputs.Start = state; }
+                else if (button.Equals(Xbox360Button.Back)) { inputs.Back = state; }
+                else if (button.Equals(Xbox360Button.Guide)) { inputs.Guide = state; }
             }
 
-            public void SetInput(X360Axis axis, float value)
+            public void SetInput(Xbox360Axis axis, float value)
             {
-                switch (axis)
+                if (axis.Equals(Xbox360Axis.LeftThumbX))
                 {
-                    case X360Axis.LX_Hi:
-                    case X360Axis.LX_Lo:
-                        if (value > tempLX)
-                        {
-                            tempLX = value;
-                inputs[axis] = value;
-            }
-                        break;
-
-                    case X360Axis.LY_Hi:
-                    case X360Axis.LY_Lo:
-                        if (value > tempLY)
-                        {
-                            tempLY = value;
-                            inputs[axis] = value;
-                        }
-                        break;
-
-                    case X360Axis.RX_Hi:
-                    case X360Axis.RX_Lo:
-                        if (value > tempRX)
-                        {
-                            tempRX = value;
-                            inputs[axis] = value;
-                        }
-                        break;
-
-                    case X360Axis.RY_Hi:
-                    case X360Axis.RY_Lo:
-                        if (value > tempRY)
-                        {
-                            tempRY = value;
-                            inputs[axis] = value;
-                        }
-                        break;
-
-                    default:
-                        inputs[axis] = value;// == 0 ? inputs[axis] : value;
-                        break;
+                    if (value > tempLX)
+                    {
+                        tempLX = value;
+                    }
+                    inputs.LX = value;
                 }
+                else if (axis.Equals(Xbox360Axis.LeftThumbY))
+                {
+                    if (value > tempLY)
+                    {
+                        tempLY = value;
+                    }
+                    inputs.LY = value;
+                }
+                else if (axis.Equals(Xbox360Axis.RightThumbX))
+                {
+                    if (value > tempRX)
+                    {
+                        tempRX = value;
+                    }
+                    inputs.RX = value;
+                }
+                else if (axis.Equals(Xbox360Axis.RightThumbY))
+                {
+                    if (value > tempRY)
+                    {
+                        tempRY = value;
+                    }
+                    inputs.RY = value;
+                }
+            }
+
+            public void SetInput(Xbox360Slider slider, float value)
+            {
+                if (slider.Equals(Xbox360Slider.LeftTrigger)) {  inputs.LT = value; }
+                else if (slider.Equals(Xbox360Slider.RightTrigger)) { inputs.RT = value; }
             }
 
             public void Update()
@@ -446,65 +437,49 @@ namespace WiinUPro
                 tempRX = -10;
                 tempRY = -10;
 
-                byte[] rumble = new byte[8];
-                byte[] output = new byte[28];
-
-                // Fill the output to be sent
-                output[0] = 0x1C;
-                output[4] = (byte)ID;
-                output[9] = 0x14;
-
-                // buttons
-                int buttonFlags = 0x00;
-                output[10] |= (byte)(inputs.Up     ? 1 << 0 : 0);
-                output[10] |= (byte)(inputs.Down   ? 1 << 1 : 0);
-                output[10] |= (byte)(inputs.Left   ? 1 << 2 : 0);
-                output[10] |= (byte)(inputs.Right  ? 1 << 3 : 0);
-                output[10] |= (byte)(inputs.Start  ? 1 << 4 : 0);
-                output[10] |= (byte)(inputs.Back   ? 1 << 5 : 0);
-                output[10] |= (byte)(inputs.LS     ? 1 << 6 : 0);
-                output[10] |= (byte)(inputs.RS     ? 1 << 7 : 0);
-                output[11] |= (byte)(inputs.LB     ? 1 << 0 : 0);
-                output[11] |= (byte)(inputs.RB     ? 1 << 1 : 0);
-                output[11] |= (byte)(inputs.Guide  ? 1 << 2 : 0);
-                output[11] |= (byte)(inputs.A      ? 1 << 4 : 0);
-                output[11] |= (byte)(inputs.B      ? 1 << 5 : 0);
-                output[11] |= (byte)(inputs.X      ? 1 << 6 : 0);
-                output[11] |= (byte)(inputs.Y      ? 1 << 7 : 0);
-
-                // triggers
-                output[(uint)X360Axis.LT] = GetRawTrigger(inputs.LT);
-                output[(uint)X360Axis.RT] = GetRawTrigger(inputs.RT);
-
-                // Left Joystick
-                int rawLX = GetRawAxis(inputs.LX);
-                int rawLY = GetRawAxis(inputs.LY);
-                output[(uint)X360Axis.LX_Lo] = (byte)((rawLX >> 0) & 0xFF);
-                output[(uint)X360Axis.LX_Hi] = (byte)((rawLX >> 8) & 0xFF);
-                output[(uint)X360Axis.LY_Lo] = (byte)((rawLY >> 0) & 0xFF);
-                output[(uint)X360Axis.LY_Hi] = (byte)((rawLY >> 8) & 0xFF);
-
-                // Right Joystick
-                int rawRX = GetRawAxis(inputs.RX);
-                int rawRY = GetRawAxis(inputs.RY);
-                output[(uint)X360Axis.RX_Lo] = (byte)((rawRX >> 0) & 0xFF);
-                output[(uint)X360Axis.RX_Hi] = (byte)((rawRX >> 8) & 0xFF);
-                output[(uint)X360Axis.RY_Lo] = (byte)((rawRY >> 0) & 0xFF);
-                output[(uint)X360Axis.RY_Hi] = (byte)((rawRY >> 8) & 0xFF);
-
-                if (busRef.Report(output, rumble))
+                var controller = busRef.GetController(ID);
+                if (controller == null)
                 {
-                    // True on rumble state change
-                    if (rumble[1] == 0x08)
-                    {
-                        RumbleEvent?.Invoke(rumble[3], rumble[4]);
-                    }
+                    return;
                 }
 
-                //inputs.Reset();
+                controller.SetButtonState(Xbox360Button.A, inputs.A);
+                controller.SetButtonState(Xbox360Button.B, inputs.B);
+                controller.SetButtonState(Xbox360Button.X, inputs.X);
+                controller.SetButtonState(Xbox360Button.Y, inputs.Y);
+
+                controller.SetButtonState(Xbox360Button.Up, inputs.Up);
+                controller.SetButtonState(Xbox360Button.Down, inputs.Down);
+                controller.SetButtonState(Xbox360Button.Left, inputs.Left);
+                controller.SetButtonState(Xbox360Button.Right, inputs.Right);
+
+                controller.SetButtonState(Xbox360Button.LeftShoulder, inputs.LB);
+                controller.SetButtonState(Xbox360Button.RightShoulder, inputs.RB);
+                controller.SetButtonState(Xbox360Button.LeftThumb, inputs.LS);
+                controller.SetButtonState(Xbox360Button.RightThumb, inputs.RS);
+
+                controller.SetButtonState(Xbox360Button.Start, inputs.Start);
+                controller.SetButtonState(Xbox360Button.Back, inputs.Back);
+                controller.SetButtonState(Xbox360Button.Guide, inputs.Guide);
+
+                controller.SetAxisValue(Xbox360Axis.LeftThumbX, GetRawAxis(inputs.LX));
+                controller.SetAxisValue(Xbox360Axis.LeftThumbY, GetRawAxis(inputs.LY));
+                controller.SetAxisValue(Xbox360Axis.RightThumbX, GetRawAxis(inputs.RX));
+                controller.SetAxisValue(Xbox360Axis.RightThumbY, GetRawAxis(inputs.RY));
+
+                controller.SetSliderValue(Xbox360Slider.LeftTrigger, GetRawTrigger(inputs.LT));
+                controller.SetSliderValue(Xbox360Slider.RightTrigger, GetRawTrigger(inputs.RT));
+
+                controller.SubmitReport();
+            }
+            private void OnRumble(object sender, Xbox360FeedbackReceivedEventArgs args) //todo
+            {
+                int strength = (args.LargeMotor << 8) | args.SmallMotor;
+                //Flags[Inputs.Flags.RUMBLE] = strength > minRumble;
+                //RumbleAmount = strength > minRumble ? strength : 0;
             }
 
-            public int GetRawAxis(float axis)
+            public short GetRawAxis(float axis)
             {
                 if (axis > 1.0f)
                 {
@@ -515,7 +490,7 @@ namespace WiinUPro
                     return -32767;
                 }
 
-                return (int)(axis * 32767);
+                return (short)(axis * 32767);
             }
 
             public byte GetRawTrigger(float trigger)

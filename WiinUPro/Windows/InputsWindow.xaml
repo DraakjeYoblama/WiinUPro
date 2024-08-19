@@ -309,16 +309,16 @@
                             <Image x:Name="xRt" Source="/WiinUPro;component/Images/Controllers/Xbox/xbox360Right.png" Width="23" Height="21" Opacity="0" MouseLeftButtonDown="ToggleXInputButton" Tag="Right" ToolTip="Right"/>
                         </Border>
                         <Border Margin="180,48,669,241" BorderThickness="0" BorderBrush="{StaticResource OutlineHighlight}" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
-                            <Image x:Name="xLB" Margin="0,-11,0,0" Source="/WiinUPro;component/Images/Controllers/Xbox/xbox360LB.png" Width="75" Height="44" Opacity="0" MouseLeftButtonDown="ToggleXInputButton" Tag="LB" ToolTip="Left Bumper"/>
+                            <Image x:Name="xLB" Margin="0,-11,0,0" Source="/WiinUPro;component/Images/Controllers/Xbox/xbox360LB.png" Width="75" Height="44" Opacity="0" MouseLeftButtonDown="ToggleXInputButton" Tag="LeftShoulder" ToolTip="Left Bumper"/>
                         </Border>
                         <Border Margin="423,48,423,241" BorderThickness="0" BorderBrush="{StaticResource OutlineHighlight}" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
-                            <Image x:Name="xRB" Source="/WiinUPro;component/Images/Controllers/Xbox/xbox360RB.png" Width="78" Height="33" Opacity="0" MouseLeftButtonDown="ToggleXInputButton" Tag="RB" ToolTip="Right Bumper"/>
+                            <Image x:Name="xRB" Source="/WiinUPro;component/Images/Controllers/Xbox/xbox360RB.png" Width="78" Height="33" Opacity="0" MouseLeftButtonDown="ToggleXInputButton" Tag="RightShoulder" ToolTip="Right Bumper"/>
                         </Border>
                         <Border Margin="217,17,676,271" BorderThickness="0" BorderBrush="{StaticResource OutlineHighlight}" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
-                            <Image x:Name="xLT" Source="/WiinUPro;component/Images/Controllers/Xbox/xbox360LT.png" Width="31" Height="34" Opacity="0" MouseLeftButtonDown="ToggleXInputAxis" Tag="LT" ToolTip="Left Trigger"/>
+                            <Image x:Name="xLT" Source="/WiinUPro;component/Images/Controllers/Xbox/xbox360LT.png" Width="31" Height="34" Opacity="0" MouseLeftButtonDown="ToggleXInputSlider" Tag="LeftTrigger" ToolTip="Left Trigger"/>
                         </Border>
                         <Border Margin="435,15,461,271" BorderThickness="0" BorderBrush="{StaticResource OutlineHighlight}" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
-                            <Image x:Name="xRT" Source="/WiinUPro;component/Images/Controllers/Xbox/xbox360RT.png" Width="28" Height="36" Opacity="0" MouseLeftButtonDown="ToggleXInputAxis" Tag="RT" ToolTip="Right Trigger"/>
+                            <Image x:Name="xRT" Source="/WiinUPro;component/Images/Controllers/Xbox/xbox360RT.png" Width="28" Height="36" Opacity="0" MouseLeftButtonDown="ToggleXInputSlider" Tag="RightTrigger" ToolTip="Right Trigger"/>
                         </Border>
                         <Border Margin="286,129,614,176" BorderThickness="0" BorderBrush="{StaticResource OutlineHighlight}" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
                             <Image x:Name="xBack" Source="/WiinUPro;component/Images/Controllers/Xbox/xbox360Back.png" Width="24" Height="17" Opacity="0" MouseLeftButtonDown="ToggleXInputButton" Tag="Back" ToolTip="Back"/>
@@ -330,7 +330,7 @@
                             <Image x:Name="xStart" Source="/WiinUPro;component/Images/Controllers/Xbox/xbox360Start.png" Width="23" Height="18" Opacity="0" MouseLeftButtonDown="ToggleXInputButton" Tag="Start" ToolTip="Start"/>
                         </Border>
                         <Border Margin="210,144,697,162" BorderThickness="0" BorderBrush="{StaticResource OutlineHighlight}" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
-                            <Ellipse x:Name="xLS" Fill="#8042FFAD" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="17" MouseLeftButtonDown="ToggleXInputButton" ToolTip="Left Stick Click" Tag="LS" Opacity="0"/>
+                            <Ellipse x:Name="xLS" Fill="#8042FFAD" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="17" MouseLeftButtonDown="ToggleXInputButton" ToolTip="Left Stick Click" Tag="LeftThumb" Opacity="0"/>
                         </Border>
                         <Border Margin="206,108,692,181" BorderThickness="0" BorderBrush="{StaticResource OutlineHighlight}" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave">
                             <Image x:Name="xLUp" Height="33" Width="26" Source="/WiinUPro;component/Images/SelectArrow.png" MouseLeftButtonDown="ToggleXInputAxis" Tag="LY_Hi" ToolTip="Left Stick Up" Opacity="0"/>
@@ -370,7 +370,7 @@
                             <Image x:Name="xLLeft" HorizontalAlignment="Left" Height="33" VerticalAlignment="Top" Width="26" Source="/WiinUPro;component/Images/SelectArrow.png" MouseLeftButtonDown="ToggleXInputAxis" Tag="LX_Lo" ToolTip="Left Stick Left" RenderTransformOrigin="0.5,0.5" Opacity="0" />
                         </Border>
                         <Border Margin="387,201,0,0" BorderThickness="0" BorderBrush="{StaticResource OutlineHighlight}" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" HorizontalAlignment="Left" VerticalAlignment="Top">
-                            <Ellipse x:Name="xRS" Fill="#8042FFAD" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="16" MouseLeftButtonDown="ToggleXInputButton" ToolTip="Right Stick Click" Tag="RS" Opacity="0"/>
+                            <Ellipse x:Name="xRS" Fill="#8042FFAD" HorizontalAlignment="Left" Height="16" VerticalAlignment="Top" Width="16" MouseLeftButtonDown="ToggleXInputButton" ToolTip="Right Stick Click" Tag="RightThumb" Opacity="0"/>
                         </Border>
                         <Border Margin="383,165,0,0" BorderThickness="0" BorderBrush="{StaticResource OutlineHighlight}" MouseEnter="Border_MouseEnter" MouseLeave="Border_MouseLeave" HorizontalAlignment="Left" VerticalAlignment="Top">
                             <Image x:Name="xRUp" HorizontalAlignment="Left" Height="33" VerticalAlignment="Top" Width="26" Source="/WiinUPro;component/Images/SelectArrow.png" MouseLeftButtonDown="ToggleXInputAxis" Tag="RY_Hi" ToolTip="Right Stick Up" Opacity="0"/>

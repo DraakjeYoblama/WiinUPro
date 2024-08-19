@@ -1,5 +1,7 @@
 ﻿using System;
-using ScpControl;
+using Nefarius.ViGEm.Client;
+using Nefarius.ViGEm.Client.Targets;
+using Nefarius.ViGEm.Client.Targets.Xbox360;
 
 namespace WiinUPro
 {
@@ -13,7 +15,7 @@ namespace WiinUPro
         /// <summary>
         /// The Xbox 360 Button to be simulated
         /// </summary>
-        public X360Button Button { get; set; }
+        public Xbox360Button Button { get; set; }
 
         /// <summary>
         /// Set to use Turbo feature
@@ -71,7 +73,7 @@ namespace WiinUPro
 
         public XInputButtonAssignment() { }
 
-        public XInputButtonAssignment(X360Button button, ScpDirector.XInput_Device device = ScpDirector.XInput_Device.Device_A)
+        public XInputButtonAssignment(Xbox360Button button, ScpDirector.XInput_Device device = ScpDirector.XInput_Device.Device_A)
         {
             Button = button;
             Device = device;
@@ -161,7 +163,7 @@ namespace WiinUPro
 
         public override int GetHashCode()
         {
-            int hash = (int)Button + (int)Device;
+            int hash = Button.Id + (int)Device;
             return hash;
         }
 

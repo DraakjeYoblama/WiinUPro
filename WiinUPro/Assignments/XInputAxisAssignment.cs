@@ -1,4 +1,6 @@
-﻿using ScpControl;
+﻿using Nefarius.ViGEm.Client;
+using Nefarius.ViGEm.Client.Targets;
+using Nefarius.ViGEm.Client.Targets.Xbox360;
 
 namespace WiinUPro
 {
@@ -12,11 +14,11 @@ namespace WiinUPro
         /// <summary>
         /// The XInput Axis to be simulated.
         /// </summary>
-        public X360Axis Axis { get; set; }
+        public Xbox360Axis Axis { get; set; }
 
         public XInputAxisAssignment() { }
 
-        public XInputAxisAssignment(X360Axis axis, ScpDirector.XInput_Device device = ScpDirector.XInput_Device.Device_A)
+        public XInputAxisAssignment(Xbox360Axis axis, ScpDirector.XInput_Device device = ScpDirector.XInput_Device.Device_A)
         {
             Axis = axis;
             Device = device;
@@ -60,7 +62,7 @@ namespace WiinUPro
 
         public override int GetHashCode()
         {
-            int hash = (int)Axis + (int)Device;
+            int hash = Axis.Id + (int)Device;
             return hash;
         }
 
