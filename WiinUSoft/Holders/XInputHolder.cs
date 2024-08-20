@@ -401,12 +401,12 @@ namespace WiinUSoft.Holders
             Flags[Inputs.Flags.RUMBLE] = false;
             bus.Unplug(ID);
             
-            if (ID > 0 && ID < 5)
+            if (ID > -1 && ID < 4)
             {
-                availabe[ID - 1] = true;
+                availabe[ID] = true;
             }
 
-            ID = 0;
+            ID = -1;
             connected = false;
         }
 
@@ -425,9 +425,9 @@ namespace WiinUSoft.Holders
 
         public bool ConnectXInput(int id)
         {
-            if (id > 0 && id < 5)
+            if (id > -1 && id < 4)
             {
-                availabe[id - 1] = false;
+                availabe[id] = false;
             }
             else
             {
@@ -451,16 +451,16 @@ namespace WiinUSoft.Holders
 
         public bool RemoveXInput(int id)
         {
-            if (id > 0 && id < 5)
+            if (id > -1 && id < 4)
             {
-                availabe[id - 1] = true;
+                availabe[id] = true;
             }
 
 
             Flags[Inputs.Flags.RUMBLE] = false;
             if (bus.Unplug(id))
             {
-                ID = 0;
+                ID = -1;
                 connected = false;
                 return true;
             }
@@ -557,7 +557,6 @@ namespace WiinUSoft.Holders
 
          public void Plugin(int id, ushort vid = 0, ushort pid = 0)
         {
-            id -= 1;
             if (vid != 0 && pid != 0)
             {
                 targets.Add(id, Client.CreateXbox360Controller(vid, pid));
@@ -573,7 +572,6 @@ namespace WiinUSoft.Holders
 
         public bool Unplug(int id)
         {
-            id -= 1;
             if (targets.Count > id && targets[id] != null)
             {
                 if (connected.Contains(targets[id]))
