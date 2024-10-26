@@ -727,10 +727,10 @@ namespace WiinUSoft
         {
             if (btnXinput.ContextMenu != null)
             {
-                XOption1.IsEnabled = Holders.XInputHolder.availabe[0];
-                XOption2.IsEnabled = Holders.XInputHolder.availabe[1];
-                XOption3.IsEnabled = Holders.XInputHolder.availabe[2];
-                XOption4.IsEnabled = Holders.XInputHolder.availabe[3];
+                XOption0.IsEnabled = Holders.XInputHolder.availabe[0];
+                XOption1.IsEnabled = Holders.XInputHolder.availabe[1];
+                XOption2.IsEnabled = Holders.XInputHolder.availabe[2];
+                XOption3.IsEnabled = Holders.XInputHolder.availabe[3];
 
                 btnXinput.ContextMenu.PlacementTarget = btnXinput;
                 btnXinput.ContextMenu.IsOpen = true;

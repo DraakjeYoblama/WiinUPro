@@ -40,10 +40,10 @@
         <Button x:Name="btnXinput" HorizontalAlignment="Left" Margin="184,36,0,0" VerticalAlignment="Top" Width="38" Height="38" BorderBrush="{DynamicResource BrushAntemBlue}" BorderThickness="2" Click="btnXinput_Click" ToolTip="Attatch as XInput Device" Background="{DynamicResource ButonFillBrush1}" IsEnabledChanged="btnXinput_IsEnabledChanged">
             <Button.ContextMenu>
                 <ContextMenu>
-                    <MenuItem x:Name="XOption1" Header="Xbox 360 Controller 1" Click="XOption_Click"/>
-                    <MenuItem x:Name="XOption2" Header="Xbox 360 Controller 2" Click="XOption_Click"/>
-                    <MenuItem x:Name="XOption3" Header="Xbox 360 Controller 3" Click="XOption_Click"/>
-                    <MenuItem x:Name="XOption4" Header="Xbox 360 Controller 4" Click="XOption_Click"/>
+                    <MenuItem x:Name="XOption0" Header="Xbox 360 Controller 1" Click="XOption_Click"/>
+                    <MenuItem x:Name="XOption1" Header="Xbox 360 Controller 2" Click="XOption_Click"/>
+                    <MenuItem x:Name="XOption2" Header="Xbox 360 Controller 3" Click="XOption_Click"/>
+                    <MenuItem x:Name="XOption3" Header="Xbox 360 Controller 4" Click="XOption_Click"/>
                 </ContextMenu>
             </Button.ContextMenu>
             <Image x:Name="btnXinput_image" Source="../Images/xboxlogob64.png" Margin="1"></Image>
